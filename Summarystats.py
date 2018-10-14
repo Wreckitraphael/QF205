@@ -96,7 +96,7 @@ class SummaryStats:
             return sig
     
     def cov(self, pop_samp='p'):
-        finds the population variance if pop_samp='p' (default), the sample variance if pop_samp='s'
+#        finds the population variance if pop_samp='p' (default), the sample variance if pop_samp='s'
         if len(self.a)==1 and type(self.a) not in [np.ndarray]:
             raise Exception('only 1 variable')
         elif len(self.a)==2 and type(self.a) not in [np.ndarray]:
@@ -124,10 +124,10 @@ class SummaryStats:
                         X[i,j]=(err/(len(self.a[0]-1)))
             return X
             
-data=np.array([[0,1,2],[2,1,0]])    
-test=SummaryStats(data)
-print(test.mean())
-print(test.var())
-print(test.cov())
-print(np.cov(data,bias=True))
+#data=np.array([[0,1,2],[2,1,0]])    
+#test=SummaryStats(data)
+#print(test.mean())
+#print(test.var())
+#print(test.cov())
+#print(np.cov(data,bias=True))
     
