@@ -15,7 +15,7 @@ def mround(a, epsilon=0):
     return a
 
 def dot(a,b):
-    # performs dot product of vectors
+    # performs dot product of vectors (given as 2D numpy array)
     if type(a) and type(b) in [tuple, list]:
         if len(a)!=len(b):
             raise Exception('cannot multiply %i x1 vector with %i x1 vector' % (len(a), len(b)))
@@ -106,7 +106,7 @@ def LU_solve(a,b):
     for i in range(n-1,-1,-1):
         e=Y[i]-sum([u[i][j]*x[n-j] for j in range(i+1,n+1)])
         x.append(e/u[i][i])
-    # vector is backwards, flip the vector
+    # flip the vector
     x=[x[k] for k in range(len(x)-1,-1,-1)]
     # change list to ndarray
     x=np.array(x,ndmin=2)
@@ -121,53 +121,28 @@ def m_inv(a):
     # PAA^-1=PI => LUA^-1=P
     # rewrite as LU[v1,v2,...,vn]=[i1,i2,...,in] where v1,v2,...,vn are the column vectors of A^-1 and i1,i2,...in are the column vectors of I
     #solve LUvj=ij for i=1,2,...,n to get each vj and we have A^-1
-    #
-    # decompose A
-    lu_a=LU(a)
-    # initialise A^-1 as a zero matrix
-    a_inv=np.zeros((np.size(a,0),np.size(a,0)))
-    for i in range(np.size(a,0)):
+    if np.size(a,0)!=np.size(a,1):
+        raise Exception('A not square')
+    else:
+        # decompose A
+        lu_a=LU(a)
+        # initialise A^-1 as a zero matrix
+        a_inv=np.zeros((np.size(a,0),np.size(a,0)))
         # create I 
         # swapping of rows to get P from I will be done by LU_solve
         rhs=i_mat(np.size(a,0))
-        # get each ij
-        col=np.array([rhs[i][j] for j in range(np.size(a,0))],ndmin=2)
-        # solve LUvj=Pij for each vj
-        v=LU_solve(lu_a,col)
-        a_inv[i]=v
-    # vj has been added row-wise to a_inv therefore needs to be transposed
-    a_inv=transpose(a_inv)
-    return a_inv
+        for i in range(np.size(a,0)):
+            # get each ij
+            col=np.array([rhs[i][j] for j in range(np.size(a,0))],ndmin=2)
+            # solve for each vj
+            v=LU_solve(lu_a,col)
+            a_inv[i]=v
+        # vj has been added row-wise to a_inv therefore needs to be transposed
+        a_inv=transpose(a_inv)
+        return a_inv
     
         
         
            
             
 
-a=np.array([[1,2],[4,5],[7,8]])
-b=np.array([[1,0],[0,1]])
-
-# =============================================================================
-# print(a)
-# print(b)
-# print(transpose(b))
-# print(mmult(a,b))
-# =============================================================================
-M=np.array([[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,0.0]])
-# =============================================================================
-# print(LU(M))
-# 
-# from scipy import linalg
-# p,l,u=linalg.lu(np.array([[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,0.0]]))
-# 
-# print(p)
-# print(l)
-# print(u)
-# =============================================================================
-# =============================================================================
-# test=np.empty((np.size(a,1),np.size(a,0)))
-# print(test)
-# =============================================================================
-#print(i_mat(3))
-# =============================================================================
-print(m_inv(M))
