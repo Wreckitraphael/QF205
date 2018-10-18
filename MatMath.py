@@ -86,13 +86,13 @@ def LU(a):
     # handle truncation errors
     l=mround(l,epsilon=0.00001)
     u=mround(u,epsilon=0.00001)
-    return np.array([l,u,p])
+    return (l,u,p)
             
-def LU_solve(l,u,p,b):
-    # solves a decomposed matrix 
+def LU_solve(a,b):
+    # solves a decomposed matrix
+    l,u,p=a
     # we have Ax=b and PA=LU => LUx=Pb
     Pb=mmult(p,transpose(b))
-    print(Pb)
     # let Y=Ux and solve LY=Pb for Y
     # forward substitution
     Y=[Pb[0]/l[0][0]]
@@ -110,10 +110,35 @@ def LU_solve(l,u,p,b):
     x=[x[k] for k in range(len(x)-1,-1,-1)]
     # change list to ndarray
     x=np.array(x,ndmin=2)
+    x=transpose(x)
     # handle truncation errors
     x=mround(x,epsilon=0.00001)
     return x
         
+def m_inv(a):
+    # finds inverse of a matrix A using its LU decomposition
+    # AA^-1=I, PA=LU
+    # PAA^-1=PI => LUA^-1=P
+    # rewrite as LU[v1,v2,...,vn]=[i1,i2,...,in] where v1,v2,...,vn are the column vectors of A^-1 and i1,i2,...in are the column vectors of I
+    #solve LUvj=ij for i=1,2,...,n to get each vj and we have A^-1
+    #
+    # decompose A
+    lu_a=LU(a)
+    # initialise A^-1 as a zero matrix
+    a_inv=np.zeros((np.size(a,0),np.size(a,0)))
+    for i in range(np.size(a,0)):
+        # create I 
+        # swapping of rows to get P from I will be done by LU_solve
+        rhs=i_mat(np.size(a,0))
+        # get each ij
+        col=np.array([rhs[i][j] for j in range(np.size(a,0))],ndmin=2)
+        # solve for each vj
+        v=LU_solve(lu_a,col)
+        a_inv[i]=v
+    # vj has been added row-wise to a_inv therefore needs to be transposed
+    a_inv=transpose(a_inv)
+    return a_inv
+    
         
         
            
@@ -129,19 +154,20 @@ b=np.array([[1,0],[0,1]])
 # print(mmult(a,b))
 # =============================================================================
 M=np.array([[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,0.0]])
-print(LU(M))
-
-from scipy import linalg
-p,l,u=linalg.lu(np.array([[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,0.0]]))
-
-print(p)
-print(l)
-print(u)
+# =============================================================================
+# print(LU(M))
+# 
+# from scipy import linalg
+# p,l,u=linalg.lu(np.array([[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,0.0]]))
+# 
+# print(p)
+# print(l)
+# print(u)
+# =============================================================================
 # =============================================================================
 # test=np.empty((np.size(a,1),np.size(a,0)))
 # print(test)
 # =============================================================================
 #print(i_mat(3))
-plu=LU(M)
-k=np.array([10,11,12],ndmin=2)
-print(LU_solve(plu[0],plu[1],plu[2],k))
+# =============================================================================
+print(m_inv(M))
