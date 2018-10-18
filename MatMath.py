@@ -106,7 +106,7 @@ def LU_solve(a,b):
     for i in range(n-1,-1,-1):
         e=Y[i]-sum([u[i][j]*x[n-j] for j in range(i+1,n+1)])
         x.append(e/u[i][i])
-    # flip the vector
+    # vector is backwards, flip the vector
     x=[x[k] for k in range(len(x)-1,-1,-1)]
     # change list to ndarray
     x=np.array(x,ndmin=2)
@@ -132,7 +132,7 @@ def m_inv(a):
         rhs=i_mat(np.size(a,0))
         # get each ij
         col=np.array([rhs[i][j] for j in range(np.size(a,0))],ndmin=2)
-        # solve for each vj
+        # solve LUvj=Pij for each vj
         v=LU_solve(lu_a,col)
         a_inv[i]=v
     # vj has been added row-wise to a_inv therefore needs to be transposed
