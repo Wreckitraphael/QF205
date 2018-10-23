@@ -10,12 +10,13 @@ import pandas as pd
 import MatMath as mm
 
 def max_sharpe(cov_mat,expected_return,rf):
+    # implements equation 1.32
     one_vec=np.array([1 for i in range(len(expected_return))],ndmin=2)
     rf_vec=rf*one_vec
     e_r=np.array(expected_return,ndmin=2)
     cov_mat_inv=mm.m_inv(cov_mat)
-    weights=mm.mmult(cov_mat_inv,mm.transpose(e_r-rf_vec))/float(mm.mmult(mm.mmult(one_vec,cov_mat_inv),mm.transpose(e_r-rf_vec)))
-    weights=mm.mround(weights, epsilon=0.0001)
+    weights=mm.mmult(cov_mat_inv,mm.transpose(e_r-rf_vec))\
+    /float(mm.mmult(mm.mmult(one_vec,cov_mat_inv),mm.transpose(e_r-rf_vec)))
     if sum(weights)!=1.0:
         raise Exception('Weights do not sum to 1')
     return weights
