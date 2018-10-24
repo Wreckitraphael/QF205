@@ -15,7 +15,7 @@ def max_sharpe(cov_mat,expected_return,rf):
     rf_vec=rf*one_vec
     e_r=np.array(expected_return,ndmin=2)
     cov_mat_inv=mm.m_inv(cov_mat)
-    weights=mm.mmult(cov_mat_inv,mm.transpose(e_r-rf_vec))\ # here is an explicit line continuation
+    weights=mm.mmult(cov_mat_inv,mm.transpose(e_r-rf_vec))\
     /float(mm.mmult(mm.mmult(one_vec,cov_mat_inv),mm.transpose(e_r-rf_vec)))
     if sum(weights)!=1.0:
         raise Exception('Weights do not sum to 1')
