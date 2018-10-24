@@ -77,8 +77,8 @@ class SummaryStats:
     def cor(self, output_raw=False):
         # correlations between each stock in data
         # if output_raw==False returns a DataFrame, if output_raw==True returns a ndarray
-        cov_mat=self.cov(sample, output_raw=True)
-        sigmas=self.sd(sample)
+        cov_mat=self.cov(output_raw=True)
+        sigmas=self.sd()
         # create diagonal matrix with 1/sd of each stock in the diagonal
         sd_mat=np.array([[1/sigmas[i] if i==j else 0.0 for j in self.headers] for i in self.headers])
         # transform correlation matrix to covariance matrix => cor_mat = sd_mat*cov_mat*sd_mat
@@ -88,13 +88,11 @@ class SummaryStats:
         return cor_mat
         
         
-# =============================================================================
-# prices=pd.read_csv('C09.SI.csv')
-# test=prices.loc[:,'Open':'Close']    
-# test=SummaryStats(test)
-# testmean=test.mean()
-# print(test.var())
-# print(test.sd())
-# print(test.cov())
-# print(test.cor())    
-# =============================================================================
+prices=pd.read_csv('C09.SI.csv')
+test=prices.loc[:,'Open':'Close']    
+test=SummaryStats(test)
+testmean=test.mean()
+print(test.var())
+print(test.sd())
+print(test.cov())
+print(test.cor())    
