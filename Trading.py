@@ -12,8 +12,9 @@ import Summarystatsv2 as ss
 import MaxSharpe as ms
 
 class Portfolio():
-    def __init__(self, *, stock_data, datapoints=10, rf):
+    def __init__(self, *, stock_data, trade_intervals, datapoints=10, rf):
         self.data=stock_data
+        self.trade_intervals=trade_intervals
         self.datapoints=datapoints
         self.rf=rf
         
