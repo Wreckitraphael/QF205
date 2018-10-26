@@ -44,6 +44,7 @@ class SummaryStats:
                 self.a=list(args)
         else:
             raise Exception('no data')
+    
     def mean(self):
 # =============================================================================
 #         finds the arithmetic mean
@@ -124,10 +125,10 @@ class SummaryStats:
                         X[i,j]=(err/(len(self.a[0]-1)))
             return X
             
-#data=np.array([[0,1,2],[2,1,0]])    
-#test=SummaryStats(data)
-#print(test.mean())
-#print(test.var())
-#print(test.cov())
-#print(np.cov(data,bias=True))
+data=np.array([[0,1,2],[2,1,0]])    
+test=SummaryStats(data)
+print(test.mean())
+print(test.var())
+print(test.cov())
+print(np.cov(data,bias=True))
     
