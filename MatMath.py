@@ -27,11 +27,8 @@ def dot(a,b):
         elif np.size(a,1)!=np.size(b,1):
             raise Exception('cannot multiply %i x1 vector with %i x1 vector' % (len(a), len(b)))
         else:
-            total=0
             prod=a*b
-            for n in prod[0]:
-                total=total+n
-            return total
+            return sum(sum(prod))
     else:
         raise Exception('wrong datatypes')
             
@@ -141,8 +138,7 @@ def m_inv(a):
         a_inv=transpose(a_inv)
         return a_inv
     
-        
-        
+
            
             
 
