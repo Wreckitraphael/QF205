@@ -41,20 +41,18 @@ def max_ev(means):
     weights=[float(i==max_ev) for i in means]
     return weights
 
-# =============================================================================
-# prices=pd.read_csv('C09.SI.csv')
-# test=prices.loc[:,'Open':'Close']
-# 
-# import Summarystatsv2 as ss
-# 
-# test=SummaryStats(test)
-# cov=test.cov(output_raw=True)
-# expr=test.mean(output_raw=True)
-# r=.05
-# 
-# print(cov)
-# print(expr)
-# print(max_sharpe(cov,expr,r))
-# print(min_var(cov))
-# print(max_ev(expr))
-# =============================================================================
+prices=pd.read_csv('C09.SI.csv')
+test=prices.loc[:,'Open':'Close']
+
+import Summarystatsv2 as ss
+
+test=SummaryStats(test)
+cov=test.cov(output_raw=True)
+expr=test.mean(output_raw=True)
+r=.05
+
+#print(cov)
+#print(expr)
+#print(max_sharpe(cov,expr,r))
+print(min_var(cov))
+#print(max_ev(expr))

@@ -65,7 +65,7 @@ class SummaryStats:
                     for i in self.headers]
         else:
             cov_mat=[[sum([(self.data.loc[j,i]-mu[i])*(self.data.loc[j,k]-mu[k]) 
-                    for j in range(self.datapoints[i])])/(self.datapoints[i]-1) 
+                    for j in range(self.datapoints[i])])/(self.datapoints[i]-1)  
                     for k in self.headers] 
                     for i in self.headers]
         if output_raw==True:
@@ -88,11 +88,13 @@ class SummaryStats:
         return cor_mat
         
         
-prices=pd.read_csv('C09.SI.csv')
-test=prices.loc[:,'Open':'Close']    
-test=SummaryStats(test)
-testmean=test.mean()
-print(test.var())
-print(test.sd())
-print(test.cov())
-print(test.cor())    
+# =============================================================================
+# prices=pd.read_csv('C09.SI.csv')
+# test=prices.loc[:,'Open':'Close']    
+# test=SummaryStats(test)
+# testmean=test.mean()
+# print(test.var())
+# print(test.sd())
+# print(test.cov())
+# print(test.cor())    
+# =============================================================================
